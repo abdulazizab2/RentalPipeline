@@ -3,7 +3,6 @@ import json
 import mlflow
 import tempfile
 import os
-import wandb
 import hydra
 from omegaconf import DictConfig
 
@@ -16,9 +15,8 @@ _steps = [
     # NOTE: We do not include this in the steps so it is not run by mistake.
     # You first need to promote a model export to "prod" before you can run this,
     # then you need to run this step explicitly
-#    "test_regression_model"
+    #    "test_regression_model"
 ]
-
 
 # This automatically reads in the configuration
 @hydra.main(config_name='config')
@@ -50,10 +48,25 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+
+            basic_cleaning_path = os.path.join(
+                hydra.utils.get_original_cwd(), "src", "basic_cleaning")
+            _ = mlflow.run(
+                basic_cleaning_path,
+                "main",
+                parameters={
+                    "input_artifact": "sample.csv:latest",
+                    "output_artifact": "clean_sample.csv",
+                    "output_type": "clean_sample",
+                    "output_description": "Data with outliers and null values removed",
+                    "min_price": config['etl']['min_price'],
+                    "max_price": config['etl']['max_price']
+                },
+                docker_args={
+                    "v": f"{basic_cleaning_path}:/mlflow/projects/code",
+                    "e": f"WANDB_API_KEY={os.getenv('WANDB_API_KEY')}"
+                }
+            )
 
         if "data_check" in active_steps:
             ##################
@@ -72,7 +85,9 @@ def go(config: DictConfig):
             # NOTE: we need to serialize the random forest configuration into JSON
             rf_config = os.path.abspath("rf_config.json")
             with open(rf_config, "w+") as fp:
-                json.dump(dict(config["modeling"]["random_forest"].items()), fp)  # DO NOT TOUCH
+                # DO NOT TOUCH
+                json.dump(
+                    dict(config["modeling"]["random_forest"].items()), fp)
 
             # NOTE: use the rf_config we just created as the rf_config parameter for the train_random_forest
             # step

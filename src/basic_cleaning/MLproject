@@ -1,0 +1,35 @@
+name: basic_cleaning
+docker_env:
+  image: nyc-airbnb-basic-cleaning
+
+entry_points:
+  main:
+    parameters:
+
+      input_artifact:
+        description: input raw data artifact to perform data cleaning
+        type: string
+
+      output_artifact:
+        description: output cleaned data artifact
+        type: string
+
+      output_type:
+        description: type of output data
+        type: string
+
+      output_description:
+        description: cleaned and preprocessed data
+        type: string
+
+      min_price:
+        description: minimum price of a property, records with lower than min price will be dropped.
+        type: float
+
+      max_price:
+        description: maximum price of a property, records with higher than max price will be dropped.
+        type: float
+
+
+    command: >-
+        python run.py  --input_artifact {input_artifact}  --output_artifact {output_artifact}  --output_type {output_type}  --output_description {output_description}  --min_price {min_price}  --max_price {max_price} 
