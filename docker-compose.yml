@@ -1,0 +1,12 @@
+version: '3'
+services:
+  eda_service:
+    build:
+      context: ./src/eda
+      dockerfile: Dockerfile
+    image: nyc-airbnb-eda
+  basic_cleaning_service:
+    build:
+      context: ./src/basic_cleaning
+      dockerfile: Dockerfile
+    image: nyc-airbnb-basic-cleaning

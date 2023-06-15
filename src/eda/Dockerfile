@@ -14,6 +14,11 @@ RUN pip install --no-cache-dir \
     pyarrow==2.0 \
     notebook==6.4.4
 
-WORKDIR /mlflow/projects/code
+ARG WANDB_PROJECT
+ARG WANDB_RUN_GROUP
+ENV WANDB_PROJECT=$WANDB_PROJECT
+ENV WANDB_RUN_GROUP=$WANDB_RUN_GROUP
 
 EXPOSE 8888
+
+WORKDIR /mlflow/projects/code
