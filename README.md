@@ -7,11 +7,23 @@ to be retrained with the same cadence, necessitating an end-to-end pipeline that
 # Requirements
 
 - [Docker](https://docs.docker.com/engine/install/)
+- [wandb](wandb.ai) API key
 
 ## Optional - Development requirements
 
 ```bash
 pip install -r requirements.txt
+```
+
+# Pipeline Execution
+
+1. Build all images
+```bash
+docker compose build --build-arg WANDB_PROJECT=nyc_airbnb --build-arg WANDB_RUN_GROUP=development
+```
+2. Export your wandb API key
+```bash
+export WANDB_API_KEY=${YOUR_WANDB_API_KEY}
 ```
 # License
 
