@@ -1,5 +1,6 @@
 name: data_check
-conda_env: conda.yml
+docker_env:
+  image: nyc-airbnb-data-check
 
 entry_points:
   main:
