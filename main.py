@@ -19,6 +19,8 @@ _steps = [
 ]
 
 # This automatically reads in the configuration
+
+
 @hydra.main(config_name='config')
 def go(config: DictConfig):
 
@@ -69,10 +71,25 @@ def go(config: DictConfig):
             )
 
         if "data_check" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+
+            data_check_path = os.path.join(
+                hydra.utils.get_original_cwd(), "src", "data_check"
+            )
+            _ = mlflow.run(
+                data_check_path,
+                "main",
+                parameters={
+                    "csv": "clean_sample.csv:latest",
+                    "ref": "clean_sample.csv:reference",
+                    "kl_threshold": config["data_check"]["kl_threshold"],
+                    "min_price": config["etl"]["min_price"],
+                    "max_price": config["etl"]["max_price"]
+                },
+                docker_args={
+                    "v": f"{data_check_path}:/mlflow/projects/code",
+                    "e": f"WANDB_API_KEY={os.getenv('WANDB_API_KEY')}"
+                }
+            )
 
         if "data_split" in active_steps:
             ##################

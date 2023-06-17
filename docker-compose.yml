@@ -10,3 +10,8 @@ services:
       context: ./src/basic_cleaning
       dockerfile: Dockerfile
     image: nyc-airbnb-basic-cleaning
+  data_check_service:
+    build:
+      context: ./src/data_check
+      dockerfile: Dockerfile
+    image: nyc-airbnb-data-check
