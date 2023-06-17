@@ -26,7 +26,7 @@ def go(args):
     idx = df['price'].between(args.min_price, args.max_price)
     df = df[idx].copy()
     df['last_review'] = pd.to_datetime(df['last_review'])
-    df.to_csv(args.output_artifact)
+    df.to_csv(args.output_artifact, index=False)
 
     artifact = wandb.Artifact(
         args.output_artifact,
