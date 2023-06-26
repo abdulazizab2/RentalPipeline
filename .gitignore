@@ -115,4 +115,3 @@ random_forest_dir/
 multirun/
 
 *.csv
-rf_config.json

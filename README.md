@@ -5,6 +5,7 @@ on the price of similar properties. Your company receives new data in bulk every
 to be retrained with the same cadence, necessitating an end-to-end pipeline that can be reused.
 
 # Links
+[Project Link](https://github.com/abdulazizab2/RentalPipeline)
 [Training and pipeline logs](https://wandb.ai/abdulazizab/nyc_airbnb?workspace=user-abdulazizab)
 # Requirements
 
