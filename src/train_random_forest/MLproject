@@ -1,5 +1,6 @@
 name: download_file
-conda_env: conda.yml
+docker_env:
+  image: nyc-airbnb-train-random-forest
 
 entry_points:
   main:

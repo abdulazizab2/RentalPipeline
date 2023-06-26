@@ -15,3 +15,8 @@ services:
       context: ./src/data_check
       dockerfile: Dockerfile
     image: nyc-airbnb-data-check
+  train_random_forest_service:
+    build:
+      context: ./src/train_random_forest
+      dockerfile: Dockerfile
+    image: nyc-airbnb-train-random-forest
